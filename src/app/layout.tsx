@@ -57,7 +57,7 @@ export default function RootLayout({
         <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
 
         {/* Main Content */}
-        <main className={`${isSmall ? "" : "ml-[280px]"} px-8 py-11  `}>
+        <main className={`${isSmall ? "" : "ml-[280px]"} px-8 py-11 bg-gray-100 `}>
           {children}
         </main>
       </body>
