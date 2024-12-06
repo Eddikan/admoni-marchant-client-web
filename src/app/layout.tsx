@@ -2,9 +2,12 @@
 
 // import type { Metadata } from "next";
 import localFont from "next/font/local";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Sidebar from "@/components/Sidebar";
 import { FaBars } from "react-icons/fa";
+import { useBreakpoint } from "@/hooks/useBreakpoint";
+import { useIsMobile } from "@/hooks/useMobile";
+
 import "./globals.css";
 
 const geistSans = localFont({
@@ -28,7 +31,13 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const isMobile = useIsMobile();
+
+  const { sm: isSmall } = useBreakpoint();
+  useEffect(() => {
+    setIsSidebarOpen(!isSmall);
+  }, [isSmall, isMobile]);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -38,15 +47,19 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         {/* Hamburger Menu for Mobile */}
-        <button className="hamburger" onClick={toggleSidebar}>
-          <FaBars size={24} />
-        </button>
+        {isSmall && (
+          <button className="hamburger p-2" onClick={toggleSidebar}>
+            <FaBars size={24} />
+          </button>
+        )}
 
         {/* Sidebar */}
         <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
 
         {/* Main Content */}
-        <main className="main">{children}</main>
+        <main className={`${isSmall ? "" : "ml-[280px]"} px-8 py-11  `}>
+          {children}
+        </main>
       </body>
     </html>
   );
