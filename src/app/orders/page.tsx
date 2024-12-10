@@ -134,8 +134,9 @@ const DashboardPage = () => {
   };
 
   return (
-    <div className=" sm:p-6">
+    <div className=" sm:px-6">
       {/* Top Cards */}
+      <p className="mb-9 text-3xl font-medium">Orders</p>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         <TopCard title="Total Order" content="13,240" />
         <TopCard title="Total Amount Sold" content="₦123,987" />
