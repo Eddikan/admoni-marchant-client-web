@@ -1,3 +1,4 @@
+"use client"
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 interface SearchBarProps {
@@ -8,6 +9,8 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
   const [query, setQuery] = useState("");
 
   useEffect(() => {
+    console.log(query);
+
     const debounce = setTimeout(() => {
       onSearch(query);
     }, 500);
