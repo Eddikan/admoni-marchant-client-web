@@ -5,7 +5,7 @@ import Image from "next/image";
 import DateRangePicker from "@/components/DateRangePicker";
 import FiltersDropdown from "@/components/FiltersDropdown";
 import SearchBar from "@/components/SearchBar";
-import Table from "@/components/Table";
+import PaginatedNotifications from "@/components/notifications/PaginatedNotifications";
 import Button from "@/components/ui/Button";
 import dynamic from "next/dynamic";
 const ClientSideMenu = dynamic(
@@ -51,46 +51,7 @@ const generateMockData = () => {
 
 const mockData = generateMockData();
 
-const headers = [
-  {
-    label: "Customer ID",
-    key: "id",
 
-    render: (id: string) => (
-      <span className="text-black font-medium">{id}</span>
-    ),
-  },
-  { label: "Customer name", key: "customer" },
-  { label: "Email", key: "email" },
-  {
-    label: "Phone no",
-    key: "phone",
-  },
-  { label: "Gender", key: "gender" },
-  { label: "Address", key: "address" },
-  { label: "Total items", key: "totalItems" },
-  {
-    label: "Total Amount",
-    key: "totalAmount",
-    render: (no: string) => (
-      <span className="text-black font-medium">{no}</span>
-    ),
-  },
-  {
-    label: "",
-    key: "options",
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    render: (status: string) => (
-      <Image
-        alt="arrow"
-        src="/icons/tripleIcons.svg"
-        className="rotate-180 cursor-pointer"
-        width={24}
-        height={24}
-      />
-    ),
-  },
-];
 
 const DashboardPage = () => {
   const [selectedRows, setSelectedRows] = useState<any[]>([]);
@@ -116,7 +77,7 @@ const DashboardPage = () => {
     <div className=" sm:px-6">
       {/* Top Cards */}
       <div className="flex justify-between">
-        <p className=" text-3xl font-medium">Customers</p>
+        <p className=" text-3xl font-medium">Notifications</p>
 
         <Button onClick={() => alert("exported")} icon="/icons/export.svg">
           Export
@@ -147,8 +108,7 @@ const DashboardPage = () => {
 
         {/* Table */}
         <div className="overflow-x-auto">
-          <Table
-            headers={headers}
+          <PaginatedNotifications
             rows={filteredData}
             itemsPerPage={10}
             onSelect={(selectedRows) => setSelectedRows(selectedRows)}
