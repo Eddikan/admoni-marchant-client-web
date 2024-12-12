@@ -1,3 +1,32 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Tailwind custom styles for checkboxes */
+/* Global custom checkbox styling */
+input[type="checkbox"] {
+    appearance: none; /* Remove default checkbox styling */
+    width: 20px;
+    height: 20px;
+    border: 2px solid #d1d5db; /* Tailwind's border-gray-300 */
+    border-radius: 0.25rem; /* Rounded corners */
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    background-color: white; /* Default background */
+    transition: all 0.2s ease-in-out; /* Smooth transitions */
+  }
+  
+  input[type="checkbox"]:checked {
+    background-color: #22c55e; /* Tailwind's bg-green-500 */
+    border-color: #22c55e; /* Tailwind's border-green-500 */
+  }
+  
+  input[type="checkbox"]:checked::before {
+    content: '✓'; /* White checkmark */
+    color: white;
+    font-size: 0.875rem; /* Adjust font size */
+    font-weight: bold;
+  }
+  
