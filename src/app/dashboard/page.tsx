@@ -30,7 +30,8 @@ ChartJS.register(
 );
 
 const Dashboard: React.FC = () => {
-  const [selectedYear, setSelectedYear] = useState<number>(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [selectedYear, setSelectedYear] = useState<any>(
     new Date().getFullYear()
   );
 

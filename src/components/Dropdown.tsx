@@ -1,9 +1,10 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from "react";
 
 interface DropdownProps {
-  options: number[];
-  selected: number;
-  onSelect: (value: number) => void;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  options: any[];
+  selected: number | string;
+  onSelect: (value: number | string) => void;
 }
 
 const Dropdown: React.FC<DropdownProps> = ({ options, selected, onSelect }) => {
@@ -13,14 +14,17 @@ const Dropdown: React.FC<DropdownProps> = ({ options, selected, onSelect }) => {
   // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
         setIsOpen(false);
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
 

@@ -11,7 +11,7 @@ interface SidebarProps {
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
-  const { sm: isSmall } = useBreakpoint();
+  const { lg: isSmall } = useBreakpoint();
   const pathname = usePathname();
 
   // Navigation links

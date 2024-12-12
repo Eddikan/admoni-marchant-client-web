@@ -7,8 +7,6 @@ import Sidebar from "@/components/Sidebar";
 import { FaBars } from "react-icons/fa";
 import { useBreakpoint } from "@/hooks/useBreakpoint";
 import { useIsMobile } from "@/hooks/useMobile";
-import { useToast } from "@/hooks/useToast"; // Import the hook
-import Toast from "@/components/ui/Toast"; // Import the Toast component
 import { ToastProvider } from '@/context/ToastContext';
 import "./globals.css";
 
@@ -44,7 +42,6 @@ export default function RootLayout({
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
-  const { toast } = useToast();
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
@@ -58,11 +55,6 @@ export default function RootLayout({
         {/* Sidebar */}
         <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
 
-        <Toast
-          message={toast.message}
-          type={toast.type}
-          isVisible={toast.isVisible}
-        />
         {/* Main Content */}
         <ToastProvider>
         <main
