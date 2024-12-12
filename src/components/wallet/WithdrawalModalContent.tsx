@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Image from "next/image";
-import BankDropdown from "./BankDropdown";
+import BankDropdown from "../ui/Dropdown";
+import TabSwitcher from "../ui/TabSwitcher";
 interface Account {
   id: number;
   bankName: string;
@@ -8,6 +9,7 @@ interface Account {
   accountNumber: string;
   accountHolder: string;
 }
+type tabType = string;
 
 interface FormData {
   amount: string;
@@ -23,7 +25,7 @@ export default function WithdrawalModalContent({
   onClose: () => void;
 }) {
   const { showToast } = useToast();
-  const [activeTab, setActiveTab] = useState<"linked" | "new">("linked");
+  const [activeTab, setActiveTab] = useState<tabType>("linked");
   const [selectedAccount, setSelectedAccount] = useState<Account | null>(null);
   const [formData, setFormData] = useState<FormData>({
     amount: "",
@@ -108,28 +110,15 @@ export default function WithdrawalModalContent({
         )}
       </div>
       <p className="text-center text-lg font-medium mb-3">Select Account</p>
-      <div className="flex">
-        <button
-          className={`flex-1 p-2 ${
-            activeTab === "linked"
-              ? "border-b-2 bg-adGreen-150 border-green-500 font-bold"
-              : ""
-          }`}
-          onClick={() => setActiveTab("linked")}
-        >
-          Linked Account
-        </button>
-        <button
-          className={`flex-1 p-2 ${
-            activeTab === "new"
-              ? "border-b-2 bg-adGreen-150 border-green-500 font-bold"
-              : ""
-          }`}
-          onClick={() => setActiveTab("new")}
-        >
-          New Account
-        </button>
-      </div>
+
+      <TabSwitcher
+        tabs={[
+          { id: "linked", label: "Linked Account" },
+          { id: "new", label: "New Account" },
+        ]}
+        activeTab={activeTab}
+        onTabChange={(tab: string) => setActiveTab(tab)}
+      />
       <div className="py-6 ">
         {activeTab === "linked" && (
           <div>

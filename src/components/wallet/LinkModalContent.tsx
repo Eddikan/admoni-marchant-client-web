@@ -1,5 +1,5 @@
 import { useState } from "react";
-import BankDropdown from "./BankDropdown";
+import BankDropdown from "../ui/Dropdown";
 interface FormData {
   bank: string;
   accountNumber: string;
