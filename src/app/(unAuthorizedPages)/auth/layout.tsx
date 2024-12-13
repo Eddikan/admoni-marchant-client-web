@@ -1,15 +1,10 @@
 // app/auth/layout.tsx
 import React from "react";
-import "./globals.css";
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
-      <body className="bg-white">
     <div className="h-screen flex items-center justify-center bg-gray-50">
       {children}
     </div>
-    </body>
-    </html>
   );
 }

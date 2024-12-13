@@ -150,11 +150,10 @@ const Dashboard: React.FC = () => {
   ];
 
   return (
-    <div className="p-6  min-h-screen">
+    <div className="">
       <div className="flex justify-between mb-6">
         <p className=" text-3xl font-medium">Wallet</p>
-<LinkAccount/>
-      
+        <LinkAccount />
       </div>
 
       {/* Stat Cards */}
@@ -249,7 +248,6 @@ const Dashboard: React.FC = () => {
       >
         <WithdrawalModalContent onClose={() => setIsModalOpen(false)} />
       </ModalWrapper>
- 
     </div>
   );
 };
