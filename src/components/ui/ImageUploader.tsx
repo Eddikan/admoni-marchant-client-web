@@ -66,10 +66,10 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
   };
 
   return (
-    <div className="mb-4 text-sm">
+    <div className="mb-4  text-sm">
       <label className="block mb-2 font-medium">{label}</label>
       <div
-        className="border-dashed border-2 border-green-500 rounded-lg p-4 cursor-pointer"
+        className="border-dashed py-6 border-2 border-green-500 rounded-lg p-4 cursor-pointer"
         onClick={openFileDialog}
         onDragOver={(e) => e.preventDefault()}
         onDrop={handleDrop}

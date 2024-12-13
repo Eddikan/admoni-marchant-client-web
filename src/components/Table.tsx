@@ -10,7 +10,7 @@ interface TableProps {
   rows: any[]; // Data rows
   itemsPerPage: number; // Number of rows per page
   onSelect: (selectedRows: any[]) => void; // Callback for row selection
-  onRowClick: (row: any) => void; // Callback for row click
+  onRowClick?: (row: any) => void; // Callback for row click
 }
 
 const Table: React.FC<TableProps> = ({
@@ -57,7 +57,7 @@ const Table: React.FC<TableProps> = ({
       <table className="w-full border-collapse border-b border-gray-300">
         <thead>
           <tr className="border-b border-gray-300 bg-grey-600 ">
-            <th className="p-2 bg-gray-100 pl-6">
+            <th className="p-2 text-left bg-gray-100 pl-6">
               <input
                 type="checkbox"
                 className="border border-grey-500 rounded"
@@ -82,7 +82,7 @@ const Table: React.FC<TableProps> = ({
               className={`cursor-pointer  ${
                 idx % 2 === 0 ? "bg-adGreen-100" : "bg-white"
               } hover:bg-green-100 border-b border-gray-300`}
-              onClick={() => onRowClick(row)}
+              onClick={() => onRowClick && onRowClick(row)}
             >
               {/* Wrap the checkbox in a container */}
               <td className="p-2 pl-6 py-6">

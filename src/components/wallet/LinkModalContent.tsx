@@ -97,7 +97,7 @@ export default function WithdrawalModalContent({
             className="w-full bg-green-500 text-white py-2 rounded"
             onClick={handleWithdrawNew}
           >
-            Withdraw
+            Link Account
           </button>
         </div>
       </div>

@@ -42,14 +42,14 @@ const Input: React.FC<InputProps> = ({
 
   return (
     <div className="mb-4">
-      <label className="block mb-1 font-medium">{label}</label>
+      <label className="block mb-1 text-base font-medium">{label}</label>
       <div className="flex w-full gap-2">
         <div className="flex flex-grow items-center border rounded p-2">
           {prepend && <div className="mr-2">{prepend}</div>}
           <input
             type={type}
             name={name}
-            className="w-full px-1 focus:outline-none"
+            className="w-full px-1 bg-transparent focus:outline-none"
             value={value}
             onChange={onChange}
           />

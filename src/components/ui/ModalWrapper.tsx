@@ -34,11 +34,11 @@ export default function ModalWrapper({
 
   return (
     <div
-      className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50"
+      className="fixed inset-0 flex z-[100] items-center justify-center bg-gray-800 bg-opacity-50"
       onClick={onClose}
     >
       <div
-        className="bg-white p-6 rounded-lg shadow-lg w-[559px] relative"
+        className="bg-white p-6  rounded-lg shadow-lg w-[559px] relative"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between">

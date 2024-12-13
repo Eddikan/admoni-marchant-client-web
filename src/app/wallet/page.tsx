@@ -3,9 +3,8 @@ import React, { useState } from "react";
 import TopCard from "@/components/TopCard";
 import DateRangePicker from "@/components/DateRangePicker";
 import WithdrawalModalContent from "@/components/wallet/WithdrawalModalContent";
-import LinkModalContent from "@/components/wallet/LinkModalContent";
-
 import ModalWrapper from "@/components/ui/ModalWrapper";
+import LinkAccount from "@/components/wallet/LinkAccount";
 
 import Dropdown from "@/components/Dropdown";
 import { Bar } from "react-chartjs-2";
@@ -40,7 +39,6 @@ ChartJS.register(
 const Dashboard: React.FC = () => {
   const [selectedYear, setSelectedYear] = useState<string | number>("Daily");
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isLinkModalOpen, setIsLinkModalOpen] = useState(false);
   // Generate the last 6 years
   const years = ["Daily", "Weekly"];
 
@@ -155,10 +153,8 @@ const Dashboard: React.FC = () => {
     <div className="p-6  min-h-screen">
       <div className="flex justify-between mb-6">
         <p className=" text-3xl font-medium">Wallet</p>
-
-        <Button onClick={() => setIsLinkModalOpen(true)} icon="/icons/add.svg">
-          Link New Account
-        </Button>
+<LinkAccount/>
+      
       </div>
 
       {/* Stat Cards */}
@@ -253,13 +249,7 @@ const Dashboard: React.FC = () => {
       >
         <WithdrawalModalContent onClose={() => setIsModalOpen(false)} />
       </ModalWrapper>
-      <ModalWrapper
-        title="Link Account"
-        isOpen={isLinkModalOpen}
-        onClose={() => setIsLinkModalOpen(false)}
-      >
-        <LinkModalContent onClose={() => setIsLinkModalOpen(false)} />
-      </ModalWrapper>
+ 
     </div>
   );
 };

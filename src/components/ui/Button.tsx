@@ -6,12 +6,14 @@ interface ButtonProps {
   icon?: string;
   loading?: boolean;
   children: ReactNode;
+  block?: boolean;
 }
 
 export default function Button({
   onClick,
   icon,
   loading = false,
+  block,
   children,
 }: ButtonProps) {
   return (
@@ -19,8 +21,8 @@ export default function Button({
       onClick={onClick}
       disabled={loading}
       className={`flex items-center justify-center gap-2 px-4 py-2 bg-[#00A85A] text-white font-medium rounded-md ${
-        loading ? "opacity-50 cursor-not-allowed" : "hover:bg-[#008e4d]"
-      }`}
+        loading ? " opacity-50 cursor-not-allowed " : " hover:bg-[#008e4d] "
+      } ${block ? " w-full " : ""}`}
     >
       {loading ? (
         <svg
