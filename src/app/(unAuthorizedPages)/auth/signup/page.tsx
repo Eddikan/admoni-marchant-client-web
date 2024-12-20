@@ -2,7 +2,9 @@
 "use client";
 import React, { useState } from "react";
 import OtpInput from "@/components/ui/OtpInput";
-
+import Image from "next/image";
+import Link from "next/link";
+import InputField from "@/components/form/InputField";
 const SignUpPage = () => {
   const [step, setStep] = useState(1);
 
@@ -10,69 +12,95 @@ const SignUpPage = () => {
     e.preventDefault();
     setStep(2);
   };
+  const [formData, setFormData] = useState({
+    email: "",
+    firstName: "",
+    lastName: "",
+    password: "",
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
   return (
-    <div className="flex flex-col sm:flex-row items-center justify-center h-screen bg-gray-50 px-4">
-      <div className="w-full sm:w-1/2 text-center sm:text-left mb-6 sm:mb-0">
-        <h1 className="text-4xl font-bold mb-4">adMONI</h1>
-        <p className="text-lg font-medium text-gray-600 mb-8">
-          Showcase your product to the world
-        </p>
-        <p className="text-sm text-gray-500">3k+ people joined us, now it’s your turn</p>
+    <div className="flex flex-col sm:flex-row  items-center justify-between px-[151px] h-screen w-screen bg-gray-50 ">
+      <div className="w-full sm:w-1/2 pl-20 flex flex-col justify-center  text-center sm:text-left mb-6 sm:mb-0">
+        <div className="flex  justify-center  items-end mb-8  gap-2">
+          <div className="relative h-[24px]  w-[24px]">
+            <Image alt="arrow" src="/icons/AdmoniLogo.png" className="" fill />
+          </div>
+
+          <span className="text-4xl relative top-2 -left-1 font-bold ">
+            adMONI
+          </span>
+        </div>
+
+        <div className="text-4xl font-medium text-center text-[#202020]  mb-[70px]">
+          Showcase your
+          <br />
+          product to the world
+        </div>
+        <div></div>
+        <div className="text-sm flex justify-center text-gray-500">
+          <div className="relative h-[32px]  w-[366px]">
+            <Image alt="arrow" src="/icons/yourTurn.svg" className="" fill />
+          </div>
+        </div>
       </div>
-      <div className="w-full sm:w-1/3 bg-white rounded-lg shadow-lg p-8">
+      <div className="w-full sm:w-[40%] bg-white rounded-lg shadow-lg p-8">
         {step === 1 ? (
           <form onSubmit={handleSubmit}>
-            <h2 className="text-2xl font-semibold mb-4">Create an account</h2>
-            <p className="text-sm text-gray-500 mb-6">
-              Already have an account? <a href="/signin" className="text-green-600">Sign in</a>
+            <h2 className="text-4xl font-medium mb-4">Create an account</h2>
+            <p className="text-sm font-medium mb-6">
+              Already have an account?{" "}
+              <Link href="/auth/signin" className="">
+                Sign in
+              </Link>
             </p>
-            <div className="mb-4">
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                Email address
-              </label>
-              <input
-                id="email"
-                type="email"
-                className="w-full mt-1 p-2 border border-gray-300 rounded-md"
-                required
+
+            <InputField
+              label="Email address"
+              type="email"
+              value={formData.email}
+              onChange={(e) =>
+                handleChange({ ...e, target: { ...e.target, name: "email" } })
+              }
+            />
+            <div className="grid grid-cols-2  gap-4 mb-4">
+              <InputField
+                label="First name"
+                type="text"
+                value={formData.firstName}
+                onChange={(e) =>
+                  handleChange({ ...e, target: { ...e.target, name: "firstName" } })
+                }
               />
-            </div>
-            <div className="flex gap-4 mb-4">
-              <div className="w-1/2">
-                <label htmlFor="firstName" className="block text-sm font-medium text-gray-700">
-                  First name
-                </label>
-                <input
-                  id="firstName"
+              <div className="">
+                <InputField
+                  label="Last Name"
                   type="text"
-                  className="w-full mt-1 p-2 border border-gray-300 rounded-md"
-                  required
-                />
-              </div>
-              <div className="w-1/2">
-                <label htmlFor="lastName" className="block text-sm font-medium text-gray-700">
-                  Last name
-                </label>
-                <input
-                  id="lastName"
-                  type="text"
-                  className="w-full mt-1 p-2 border border-gray-300 rounded-md"
-                  required
+                  value={formData.lastName}
+                  onChange={(e) =>
+                    handleChange({
+                      ...e,
+                      target: { ...e.target, name: "lastName" },
+                    })
+                  }
                 />
               </div>
             </div>
-            <div className="mb-4">
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700">
-                Password
-              </label>
-              <input
-                id="password"
-                type="password"
-                className="w-full mt-1 p-2 border border-gray-300 rounded-md"
-                required
-              />
-            </div>
+            <InputField
+              label="Password"
+              type="password"
+              value={formData.password}
+              onChange={(e) =>
+                handleChange({
+                  ...e,
+                  target: { ...e.target, name: "password" },
+                })
+              }
+            />
             <button
               type="submit"
               className="w-full bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700"
@@ -80,17 +108,31 @@ const SignUpPage = () => {
               Sign Up
             </button>
             <p className="text-xs text-gray-500 mt-4">
-              By clicking Create account, I agree that I have read and accepted the
-              <a href="#" className="text-green-600"> Terms of Use </a>
+              By clicking Create account, I agree that I have read and accepted
+              the
+              <a href="#" className="text-green-600">
+                {" "}
+                Terms of Use{" "}
+              </a>
               and
-              <a href="#" className="text-green-600"> Privacy Policy</a>.
+              <a href="#" className="text-green-600">
+                {" "}
+                Privacy Policy
+              </a>
+              .
             </p>
           </form>
         ) : (
-          <div>
-            <h2 className="text-2xl font-semibold mb-4">Email Verification</h2>
+          <div className="text-center mb-8">
+            <h2 className="text-xl font-medium text-grey-900 font-semibold mb-4">Email Verification</h2>
             <p className="text-sm text-gray-500 mb-6">
-              A 6-digit verification code has been sent to your email.
+              A 6-digit verification code has been sent to 
+
+              <br />
+              <span className="text-adGreen-200 font-medium">
+
+              admoni@gmail.com
+              </span>
             </p>
             <OtpInput onVerify={() => {}} />
           </div>
