@@ -33,7 +33,7 @@ const InputField: React.FC<InputFieldProps> = ({
       <label
         htmlFor={label} // Associate the label with the input via its id
         className={`absolute bg-white left-3 cursor-text top-1/2 transform -translate-y-1/2 text-gray-400 transition-all duration-300 z-10 ${
-          isFocused || value ? "-top-1 text-xs text-green-600" : "text-base"
+          isFocused || value ? "-top-[5px] text-xs text-green-600" : "text-base"
         }`}
       >
         {label}

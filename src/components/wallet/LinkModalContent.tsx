@@ -32,7 +32,7 @@ export default function WithdrawalModalContent({
 
     if (Object.keys(validationErrors).length === 0) {
       console.log("Form Data:", formData);
-      showToast("success", "Withdrawal successful!");
+      showToast("success", "Account linked successfully");
       onClose();
     }
   };
