@@ -132,7 +132,7 @@ const headers = [
   {
     label: "Status",
     key: "status",
-    render: (status: boolean) => (
+    render: () => (
       <label className="toggle-switch" onClick={(e) => e.stopPropagation()}>
         <input type="checkbox" className="toggle-checkbox" />
         {/* <input

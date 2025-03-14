@@ -22,6 +22,7 @@ const DashboardPage = () => {
   const [activeTab, setActiveTab] = useState<string>("general");
   const { showToast } = useToast();
   const [images, setImages] = useState<File[]>([]);
+  console.log(images);
   const [formData, setFormData] = useState<FormData>({
     storeName: "",
     email: "",

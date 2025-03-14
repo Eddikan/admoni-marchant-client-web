@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import React, { useEffect, useState } from "react";
-import Image from "next/image";
 import DateRangePicker from "@/components/DateRangePicker";
 import FiltersDropdown from "@/components/FiltersDropdown";
 import SearchBar from "@/components/SearchBar";

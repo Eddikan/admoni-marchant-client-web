@@ -12,8 +12,7 @@ interface ImageUploaderProps {
 const ImageUploader: React.FC<ImageUploaderProps> = ({
   label,
   maxImages,
-  maxFileSizeMB,
-  required = false,
+  maxFileSizeMB, // removed unused 'required' prop
   onImagesChange,
 }) => {
   const [images, setImages] = useState<File[]>([]);
@@ -31,7 +30,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
       return;
     }
 
-    for (let image of newImages) {
+    for (const image of newImages) {
       if (image.size > maxFileSizeMB * 1024 * 1024) {
         setError(`Each file must be smaller than ${maxFileSizeMB} MB.`);
         return;
