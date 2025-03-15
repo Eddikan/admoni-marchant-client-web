@@ -53,7 +53,7 @@ export default  function RootLayout({
     {/* Main Content */}
     <ToastProvider>
     <main
-      className={`${isSmall ? "" : "ml-[280px]"} px-8 py-11 bg-white min-h-screen `}
+      className={`${isSmall ? "" : "ml-[280px]"} px-2  md:px-8 py-11 bg-white min-h-screen `}
     >
  
       {children}

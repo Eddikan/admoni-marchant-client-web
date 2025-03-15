@@ -28,16 +28,18 @@ const InputField: React.FC<InputFieldProps> = ({
   const inputType = type === "password" && isPasswordVisible ? "text" : type;
 
   return (
-    <div className="relative  mb-6">
-      {/* Use htmlFor to associate label with the input */}
-      <label
-        htmlFor={label} // Associate the label with the input via its id
-        className={`absolute bg-white left-3 cursor-text top-1/2 transform -translate-y-1/2 text-gray-400 transition-all duration-300 z-10 ${
-          isFocused || value ? "-top-[5px] text-xs text-green-600" : "text-base"
-        }`}
-      >
-        {label}
-      </label>
+    <div className="relative mb-6">
+      {/* Hide label if there is a value */}
+      {!value && (
+        <label
+          htmlFor={label} // Associate the label with the input via its id
+          className={`absolute bg-white left-3 cursor-text top-1/2 transform -translate-y-1/2 text-gray-400 transition-all duration-300 z-10 ${
+            isFocused ? "-top-[5px] text-xs text-green-600" : "text-base"
+          }`}
+        >
+          {label}
+        </label>
+      )}
       <div className="flex z-0 items-center border overflow-hidden border-gray-300 rounded-lg px-3 py-2 focus-within:border-green-600 transition-all">
         <input
           id={label} // Unique id that matches the htmlFor attribute
@@ -56,12 +58,11 @@ const InputField: React.FC<InputFieldProps> = ({
             onClick={togglePasswordVisibility}
           >
             {isPasswordVisible ? (
-                       <div className="relative h-[24px]  w-[24px]">
-                       <Image alt="arrow" src="/icons/eye.svg" className="" fill />
-                     </div>
+              <div className="relative h-[24px] w-[24px]">
+                <Image alt="arrow" src="/icons/eye.svg" className="" fill />
+              </div>
             ) : (
-                "🕳️"
-       
+              "🕳️"
             )}
           </button>
         )}
