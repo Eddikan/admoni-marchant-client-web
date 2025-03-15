@@ -1,7 +1,7 @@
 // components/OtpInput.tsx
 import React, { useState } from "react";
 import Button from "@/components/ui/Button";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 type OtpInputProps = {
   onVerify: (code: string) => void;
@@ -9,8 +9,12 @@ type OtpInputProps = {
 
 const OtpInput: React.FC<OtpInputProps> = ({ onVerify }) => {
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
+  const router = useRouter();
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>, index: number) => {
+  const handleKeyDown = (
+    e: React.KeyboardEvent<HTMLInputElement>,
+    index: number
+  ) => {
     if (e.key === "Backspace" && otp[index] === "" && index > 0) {
       const prevInput = document.getElementById(`otp-${index - 1}`);
       prevInput?.focus();
@@ -38,11 +42,16 @@ const OtpInput: React.FC<OtpInputProps> = ({ onVerify }) => {
 
   const handleSubmit = () => {
     onVerify(otp.join(""));
+    if (router) {
+      router.push("/auth/signin");
+    } else {
+      console.error("Router is not mounted.");
+    }
   };
 
   return (
     <div>
-      <div className="flex gap-6 justify-center mb-40">
+      <div className="flex px-1 gap-6 justify-center mb-40">
         {otp.map((digit, index) => (
           <input
             key={index}
@@ -52,16 +61,13 @@ const OtpInput: React.FC<OtpInputProps> = ({ onVerify }) => {
             value={digit}
             onChange={(e) => handleChange(e.target.value, index)}
             onKeyDown={(e) => handleKeyDown(e, index)}
-            className="w-12 h-12 border border-gray-300 rounded-xl text-center text-xl"
+            className="w-10 xl:w-12 h-10 xl:h-12 border border-gray-300 rounded-xl text-center text-xl"
           />
         ))}
       </div>
 
       <Button block onClick={handleSubmit}>
-        <Link href="/auth/signin" className="">
         Continue
-
-              </Link>
       </Button>
     </div>
   );
