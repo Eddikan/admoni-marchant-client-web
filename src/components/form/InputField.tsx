@@ -49,7 +49,7 @@ const InputField: React.FC<InputFieldProps> = ({
           onFocus={handleFocus}
           onBlur={handleBlur}
           required
-          className="flex-1 px-1 border-none outline-none bg-white text-gray-700 placeholder-transparent"
+          className="flex-1 px-2 border-none outline-none bg-white text-gray-700 placeholder-transparent"
         />
         {type === "password" && (
           <button
