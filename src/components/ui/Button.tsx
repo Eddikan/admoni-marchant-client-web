@@ -2,11 +2,12 @@ import React, { ReactNode } from "react";
 import Image from "next/image";
 
 interface ButtonProps {
-  onClick: () => void;
+  onClick?: () => void;
   icon?: string;
   loading?: boolean;
   children: ReactNode;
   block?: boolean;
+  type?: "button" | "submit" | "reset";
 }
 
 export default function Button({
@@ -15,9 +16,11 @@ export default function Button({
   loading = false,
   block,
   children,
+  type
 }: ButtonProps) {
   return (
     <button
+      type={type}
       onClick={onClick}
       disabled={loading}
       className={`flex items-center justify-center gap-2 px-4 py-2 bg-[#00A85A] text-white font-medium rounded-md ${

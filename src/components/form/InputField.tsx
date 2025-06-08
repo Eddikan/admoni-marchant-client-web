@@ -5,6 +5,7 @@ interface InputFieldProps {
   type?: "text" | "password" | "email";
   value: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  marginBottom?: string; // Added marginBottom prop
 }
 
 const InputField: React.FC<InputFieldProps> = ({
@@ -12,6 +13,7 @@ const InputField: React.FC<InputFieldProps> = ({
   type = "text",
   value,
   onChange,
+  marginBottom = "mb-6", // Default to mb-6
 }) => {
   const [isFocused, setIsFocused] = useState(false);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -28,7 +30,7 @@ const InputField: React.FC<InputFieldProps> = ({
   const inputType = type === "password" && isPasswordVisible ? "text" : type;
 
   return (
-    <div className="relative mb-6">
+    <div className={`relative ${marginBottom}`}> {/* Use marginBottom prop */}
       {/* Hide label if there is a value */}
       {!value && (
         <label

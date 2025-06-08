@@ -2,6 +2,7 @@ import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage"; // Uses localStorage for web
 import authReducer from "./slices/authSlice";
+import { api } from "./api"; // Import your RTK Query API
 
 // Define persist config
 const persistConfig = {
@@ -12,6 +13,7 @@ const persistConfig = {
 // Combine reducers (useful if you add more slices later)
 const rootReducer = combineReducers({
   auth: authReducer,
+  [api.reducerPath]: api.reducer, // Add RTK Query reducer
 });
 
 // Create persisted reducer
@@ -23,7 +25,7 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false, // Required for redux-persist
-    }),
+    }).concat(api.middleware), // Add RTK Query middleware
 });
 
 // Create persistor

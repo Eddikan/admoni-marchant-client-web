@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 // import toast from "react-hot-toast"; // Assuming you're using react-toastify for toasts
+import { getCookie } from "cookies-next"; // Import getCookie
 
 const logOut = async () => {
   localStorage.clear();
@@ -8,7 +9,7 @@ const logOut = async () => {
 const baseQuery = fetchBaseQuery({
   baseUrl: process.env.NEXT_PUBLIC_BASE_URL,
   prepareHeaders: (headers) => {
-    const token = localStorage.getItem("admoni-marchant");
+    const token = getCookie("admoni-token"); // Retrieve token from cookies
     headers.set("Accept", `application/json`);
     if (token) {
       headers.set("Authorization", `Bearer ${token}`);
