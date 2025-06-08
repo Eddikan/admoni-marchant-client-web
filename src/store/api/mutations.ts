@@ -14,6 +14,7 @@ interface LoginData {
 }
 
 export const queryService = api.injectEndpoints({
+    overrideExisting: true, // 
     endpoints: (builder: import('@reduxjs/toolkit/query/react').EndpointBuilder<any, any, any>) => ({
         registerUser: builder.mutation<void, UserData>({
             query: (userData: UserData) => ({
@@ -29,10 +30,19 @@ export const queryService = api.injectEndpoints({
                 body: loginData,
             }),
         }),
+        createProduct: builder.mutation<void, FormData>({
+            query: (formData) => ({
+                url: `product/create?platform=web`,
+                method: "POST",
+                body: formData,
+            }),
+            invalidatesTags: ["MyProducts"], // Invalidate the MyProducts tag
+        }),
     }),
 });
 
 export const {
     useRegisterUserMutation,
     useLoginUserMutation, // Export loginUser mutation
+    useCreateProductMutation, // Export createProduct mutation
 } = queryService;

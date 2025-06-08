@@ -3,8 +3,9 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { getCookie } from "cookies-next"; // Import getCookie
 
 const logOut = async () => {
+  alert('odd')
   localStorage.clear();
-  window.location.href = "/login";
+  window.location.href = "/auth/signin";
 };
 const baseQuery = fetchBaseQuery({
   baseUrl: process.env.NEXT_PUBLIC_BASE_URL,
@@ -32,8 +33,8 @@ const baseQueryWithErrorHandler = async (args:any, api:any, extraOptions:any) =>
       // unauthorized
       // logout
     //   toast.error(result?.error?.data?.message);
-      api.dispatch({ type: "RESET_STATE" });
-      logOut();
+      // api.dispatch({ type: "RESET_STATE" });
+      // logOut();
     }
     // result?.error?.data?.errors?.forEach((message) => {
     //   toast.error(message);

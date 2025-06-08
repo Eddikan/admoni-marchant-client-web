@@ -12,6 +12,7 @@ interface UserData {
 }
 
 export const queryService = api.injectEndpoints({
+    overrideExisting: true, // 
     endpoints: (builder: import('@reduxjs/toolkit/query/react').EndpointBuilder<any, any, any>) => ({
         loginUser: builder.mutation<void, LoginData>({
             query: (loginData: LoginData) => ({
@@ -27,10 +28,25 @@ export const queryService = api.injectEndpoints({
                 body: userData,
             }),
         }),
+        getProductCategories: builder.query<any, { limit: number; page: number }>({
+            query: ({ limit, page }) => ({
+                url: `partners-categories/list?platform=web&limit=${limit}&page=${page}`,
+                method: "GET",
+            }),
+        }),
+        getMyProducts: builder.query<any, { limit: number; page: number; search?: string }>({
+            query: ({ limit, page, search }) => ({
+                url: `product?platform=web&limit=${limit}&page=${page}`,
+                method: "GET",
+            }),
+            providesTags: ["MyProducts"], // Use a single tag for cache management
+        }),
     }),
 });
 
 export const {
-  useLoginUserMutation,
-  useRegisterUserMutation,
+    useLoginUserMutation,
+    useRegisterUserMutation,
+    useGetProductCategoriesQuery,
+    useGetMyProductsQuery, // Export getMyProducts query
 } = queryService;

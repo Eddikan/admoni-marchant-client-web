@@ -7,6 +7,7 @@ interface BankDropdownProps {
   onChange: (value: string) => void;
   error?: string;
   title?: string;
+  loading?: boolean; // Add loading prop
 }
 
 const BankDropdown = ({
@@ -15,6 +16,7 @@ const BankDropdown = ({
   value,
   onChange,
   error,
+  loading = false, // Default loading to false
 }: BankDropdownProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -31,10 +33,14 @@ const BankDropdown = ({
     <div className="relative mb-4">
       <label className="block mb-1 font-medium">{title}</label>
       <div
-        className="flex items-center justify-between w-full border rounded-lg p-3 cursor-pointer"
-        onClick={toggleDropdown}
+        className={`flex items-center justify-between w-full border rounded-lg p-3 cursor-pointer ${
+          loading ? "bg-gray-100 cursor-not-allowed" : ""
+        }`}
+        onClick={!loading ? toggleDropdown : undefined} // Disable toggle if loading
       >
-        {selectedOption ? (
+        {loading ? (
+          <span className="text-gray-500">Loading...</span> // Show loading text
+        ) : selectedOption ? (
           <div className="flex items-center gap-3">
             {selectedOption.icon && (
               <Image
@@ -45,21 +51,22 @@ const BankDropdown = ({
                 className="rounded-full"
               />
             )}
-
             <span>{selectedOption.name}</span>
           </div>
         ) : (
           <span className="text-gray-500">{title}</span>
         )}
-        <Image
-          src="/icons/chevronDown.svg"
-          alt="Toggle"
-          width={16}
-          height={16}
-          className={`transform ${isOpen ? "rotate-180" : "rotate-0"}`}
-        />
+        {!loading && (
+          <Image
+            src="/icons/chevronDown.svg"
+            alt="Toggle"
+            width={16}
+            height={16}
+            className={`transform ${isOpen ? "rotate-180" : "rotate-0"}`}
+          />
+        )}
       </div>
-      {isOpen && (
+      {isOpen && !loading && (
         <>
           <div
             className="fixed inset-0 bg-transparent bg-opacity-25 z-40"
@@ -70,7 +77,7 @@ const BankDropdown = ({
               <li
                 key={option.id}
                 className="flex items-center gap-3 p-3 cursor-pointer hover:bg-gray-100"
-                onClick={() => handleSelect(option.name)}
+                onClick={() => handleSelect(option.id ?? option.name)}
               >
                 {option.icon && (
                   <Image
@@ -81,7 +88,6 @@ const BankDropdown = ({
                     className="rounded-full"
                   />
                 )}
-
                 <span>{option.name}</span>
               </li>
             ))}

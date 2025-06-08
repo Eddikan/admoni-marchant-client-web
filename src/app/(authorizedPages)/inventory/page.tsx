@@ -12,6 +12,10 @@ import dynamic from "next/dynamic";
 import ModalWrapper from "@/components/ui/ModalWrapper";
 import AddInventory from "@/components/inventory/AddInventory";
 import TabSwitcher from "@/components/ui/TabSwitcher";
+import {
+  useGetProductCategoriesQuery,
+  useGetMyProductsQuery,
+} from "@/store/api/queries"; // Import the query
 const ClientSideMenu = dynamic(
   () => import("@/components/inventory/InventorySideMenu"),
   { ssr: false }
@@ -38,12 +42,14 @@ const generateMockData = () => {
         name: "Perf",
         quantity: 1,
         price: 120.99,
-      },   {
+      },
+      {
         image: "https://i.postimg.cc/fbC3MX5q/Rectangle-110.png",
         name: "Perf",
         quantity: 1,
         price: 120.99,
-      },   {
+      },
+      {
         image: "https://i.postimg.cc/fbC3MX5q/Rectangle-110.png",
         name: "Perf",
         quantity: 1,
@@ -88,7 +94,9 @@ const headers = [
   {
     label: "Item ID",
     key: "id",
-    render: (id: string) => <span className="text-black  text-xs font-bold">{id}</span>,
+    render: (id: string) => (
+      <span className="text-black  text-xs font-bold">{id}</span>
+    ),
   },
   {
     label: "Category",
@@ -155,7 +163,7 @@ const headers = [
         className="cursor-pointer"
         width={24}
         height={24}
-        onClick={(e)=>e.stopPropagation()}
+        onClick={(e) => e.stopPropagation()}
       />
     ),
   },
@@ -167,34 +175,95 @@ const DashboardPage = () => {
   const [sideMenuData, setSideMenuData] = useState<any>(null);
   const [sideMenuOpen, setSideMenuOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState<string>("all");
+  const [currentPage, setCurrentPage] = useState(1);
+
+  // Fetch product categories
+  const { data: categories } = useGetProductCategoriesQuery({
+    limit: 20,
+    page: 1,
+  });
+
+  // Fetch user's products
+  const {
+    data: myProducts,
+    isLoading,
+    error,
+  } = useGetMyProductsQuery({
+    limit: 10,
+    page: currentPage,
+    search: searchQuery, // Use search query
+  },{
+    refetchOnMountOrArgChange: true, // Refetch when component mounts or arguments change
+  });
+
+  useEffect(() => {
+    if (myProducts) {
+      console.log("My Products:", myProducts.data.products); // Log products for debugging
+    }
+    if (error) {
+      console.error("Failed to fetch products:", error);
+    }
+  }, [myProducts, error]);
 
   useEffect(() => {
     console.log("selected rows:", selectedRows);
   }, [selectedRows]);
 
-  // Filter rows by search query
-  const filteredData = mockData.filter((row) =>
-    row.item.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  // Bind fetched products to filteredData
+  const filteredData = myProducts.data.products || []; // Use fetched products
 
   const handleRowClick = (row: any) => {
     setSideMenuData(row);
     setSideMenuOpen(true);
   };
-  const [activeTab, setActiveTab] = useState<string>("all");
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
+
+  const headers = [
+    {
+      label: "Product Name",
+      key: "product_name",
+    },
+    {
+      label: "Price",
+      key: "price",
+      render: (price: number) => <span>₦{price.toLocaleString()}</span>,
+    },
+    {
+      label: "Stock Quantity",
+      key: "stock_quantity",
+    },
+    {
+      label: "Featured Image",
+      key: "featured_image",
+      render: (image: string) => (
+        <img src={image} alt="Featured" className="w-12 h-12 rounded" />
+      ),
+    },
+    {
+      label: "Created At",
+      key: "createdAt",
+      render: (date: string) => (
+        <span>{new Date(date).toLocaleDateString()}</span>
+      ),
+    },
+  ];
 
   return (
-    <div className=" sm:px-6">
+    <div className="sm:px-6">
       {/* Top Cards */}
       <div className="flex justify-between">
-        <p className=" text-3xl font-medium">Inventory</p>
+        <p className="text-3xl font-medium">Inventory</p>
 
         <Button onClick={() => setIsModalOpen(true)} icon="/icons/add.svg">
           Add New Inventory
         </Button>
       </div>
       <div className="grid grid-cols-1 mt-6 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-8">
-        <TopCard title="Total Inventory" content="13,240" />
+        <TopCard title="Total Inventory" content={myProducts?.pagination?.totalCount || "0"} />
         <TopCard title="Inventory Value" content="₦123,987" />
         <TopCard title="Active Stock" content="80,345" />
         <TopCard title="In-active Stock" content="12,234" />
@@ -238,11 +307,33 @@ const DashboardPage = () => {
         <div className="overflow-x-auto">
           <Table
             headers={headers}
-            rows={filteredData}
+            rows={filteredData} // Bind filtered products to the table
             itemsPerPage={10}
             onSelect={(selectedRows) => setSelectedRows(selectedRows)}
             onRowClick={handleRowClick}
           />
+        </div>
+
+        {/* Pagination */}
+        <div className="flex justify-between items-center mt-4 px-6">
+          <button
+            onClick={() => handlePageChange(currentPage - 1)}
+            disabled={currentPage === 1}
+            className="px-4 py-2 bg-gray-200 rounded disabled:opacity-50"
+          >
+            Previous
+          </button>
+          <span>
+            Page {myProducts?.pagination?.currentPage || 1} of{" "}
+            {myProducts?.pagination?.pageCount || 1}
+          </span>
+          <button
+            onClick={() => handlePageChange(currentPage + 1)}
+            disabled={currentPage === myProducts?.pagination?.pageCount}
+            className="px-4 py-2 bg-gray-200 rounded disabled:opacity-50"
+          >
+            Next
+          </button>
         </div>
       </div>
 
