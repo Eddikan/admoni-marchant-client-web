@@ -1,9 +1,11 @@
 import React from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useBreakpoint } from "@/hooks/useBreakpoint";
 import Image from "next/image";
+import { deleteCookie } from "cookies-next"; // Import deleteCookie
+import { useAppSelector } from "@/store/hooks"; // Import useAppSelector
 
 interface SidebarProps {
   isOpen: boolean;
@@ -11,8 +13,10 @@ interface SidebarProps {
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
+  const router = useRouter(); // Initialize router
   const { lg: isSmall } = useBreakpoint();
   const pathname = usePathname();
+  const user = useAppSelector((state) => state.auth.user?.user); // Get user data from Redux store
 
   // Navigation links
   const links = [
@@ -28,6 +32,12 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
     },
     { name: "Help", path: "/help", img: "/icons/help.svg" },
   ];
+
+  const handleLogout = () => {
+    deleteCookie("admoni-token", { path: "/" }); // Clear token from cookies
+    localStorage.clear(); // Clear local storage
+    router.push("/auth/signin"); // Redirect to login page
+  };
 
   return (
     <>
@@ -118,9 +128,15 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
               priority
             />
             <div className="flex flex-col text-left">
-              <p>Olivia Rhye</p>
-              <p className="text-gray-300">olivia@admoni.com</p>
+              <p>
+                {user?.first_name} {user?.last_name}
+              </p>{" "}
+              {/* Display user's full name */}
+              <p className="text-gray-300">{user?.email}</p>{" "}
+              {/* Display user's email */}
             </div>
+          </div>
+          <div className=" flex justify-end">
             <Image
               src="/icons/logout.svg"
               alt="logout"
@@ -128,6 +144,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
               width={64}
               height={64}
               priority
+              onClick={handleLogout} // Attach logout function
             />
           </div>
         </div>

@@ -28,11 +28,9 @@ const SignUpPage = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      console.log("formData:", formData); // Log formData for debugging
       const payload = { login: formData.email, password: formData.password };
       const response: any = await loginUser(payload).unwrap(); // Ensure user is typed correctly
       const user = response.data;
-      console.log("User data received:", user);
 
       // Store token in a cookie
       setCookie("admoni-token", user.token, {
@@ -46,7 +44,6 @@ const SignUpPage = () => {
       }
 
       router.push("/dashboard"); // Redirect to dashboard after successful login
-      console.log("Login successful:", user);
     } catch (error) {
       console.error("Login failed:", error);
     }

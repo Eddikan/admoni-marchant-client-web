@@ -6,12 +6,17 @@ import Image from "next/image";
 import Link from "next/link";
 import InputField from "@/components/form/InputField";
 import { useRegisterUserMutation } from "@/store/api/mutations";
-import {  useAppDispatch } from "@/store/hooks";
+import { useAppDispatch } from "@/store/hooks";
 import { login } from "@/store/slices/authSlice";
 import { setCookie } from "cookies-next"; // Import setCookie
+import { useToast } from "@/context/ToastContext";
+import { useRouter } from "next/navigation";
 
 const SignUpPage = () => {
-  const [step, setStep] = useState(1);
+  const { showToast } = useToast();
+  const router = useRouter();
+
+  const [step] = useState(1);
   const [registerUser, { isLoading }] = useRegisterUserMutation();
   const dispatch = useAppDispatch(); // Initialize dispatch
 
@@ -59,6 +64,7 @@ const SignUpPage = () => {
     }
     try {
       const response: any = await registerUser(formData).unwrap(); // Use updated formData structure
+      console.log("Registration response:", response);
       const user = response.data;
       // Store token in a cookie
       setCookie("admoni-token", user.token, {
@@ -69,9 +75,12 @@ const SignUpPage = () => {
       dispatch(login(user.data)); // Dispatch login action with user data
       // setStep(2);
       // go to dashboard from here
-      setStep(3);
-    } catch (error) {
-      console.error("Registration failed:", error);
+      // setStep(3);
+      router.push("/dashboard"); // Redirect to dashboard after successful login
+    } catch (error: any) {
+      showToast("error", error.data.message);
+
+      console.error("Registration failed:", error.data.message);
     }
   };
 
