@@ -15,6 +15,7 @@ import {
   Legend,
   Filler,
 } from "chart.js";
+import { useAppSelector } from "@/store/hooks"; // Import useAppSelector
 
 // Register required Chart.js components
 ChartJS.register(
@@ -30,6 +31,11 @@ ChartJS.register(
 );
 
 const Dashboard: React.FC = () => {
+
+
+  const user = useAppSelector((state) => state.auth.user) 
+  const firstName = user?.user.first_name || "User"; // Fallback to "User" if first_name is not available
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [selectedYear, setSelectedYear] = useState<any>(
     new Date().getFullYear()
@@ -169,7 +175,7 @@ const Dashboard: React.FC = () => {
   };
   return (
     <div className="p-6  min-h-screen">
-      <h1 className="text-3xl font-medium mb-2">Welcome back, Olivia</h1>
+      <h1 className="text-3xl font-medium mb-2">Welcome back, {firstName}</h1> {/* Use user's first name */}
       <p className="text-[#667085] text-base font-normal mb-8">
         Track, manage and forecast your campaigns
       </p>
